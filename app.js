@@ -4,6 +4,20 @@
 var constraints = { video: { facingMode: { exact: "environment" } }, audio: false };
 var track = null;
 
+console.log("u're on an iPhone!");
+// Access the device camera and stream to cameraView
+function cameraStart() {
+    navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(function(stream) {
+        track = stream.getTracks()[0];
+        cameraView.srcObject = stream;
+    })
+    .catch(function(error) {
+        console.error("Oops. Something is broken.", error);
+    });
+}
+
 // Define constants
 const cameraView = document.querySelector("#camera--view"),
     cameraOutput = document.querySelector("#camera--output"),
@@ -46,19 +60,7 @@ console.log(camera, renderer.domElement);
 //         });
 //     }
 // } else if (navigator.platform === "iPhone") {
-console.log("u're on an iPhone!");
-// Access the device camera and stream to cameraView
-function cameraStart() {
-    navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(function(stream) {
-        track = stream.getTracks()[0];
-        cameraView.srcObject = stream;
-    })
-    .catch(function(error) {
-        console.error("Oops. Something is broken.", error);
-    });
-}
+
 // } else {
 //     console.log("unsupported platform" + navigator.platform);
 // }
