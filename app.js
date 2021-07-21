@@ -31,8 +31,8 @@ renderer.shadowMap.enabled = true;
 
 //Adding Controls
 console.log(camera, renderer.domElement);
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-console.log(controls);
+// const controls = new THREE.OrbitControls(camera, renderer.domElement);
+// console.log(controls);
 
 // if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
 //     console.log("u're on a Mac!");
