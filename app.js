@@ -40,7 +40,7 @@ camera.position.set(0, 10., 50.);
 const renderer = new THREE.WebGLRenderer( { canvas: modelCanvas, alpha: true} );
 renderer.setSize( window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio );
-renderer.setClearColor( 0x000000, .5 );
+renderer.setClearColor( 0x000000, 0 );
 renderer.shadowMap.enabled = true;
 
 //Adding Controls
