@@ -34,34 +34,34 @@ console.log(camera, renderer.domElement);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 console.log(controls);
 
-if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
-    console.log("u're on a Mac!");
-    if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-        video.srcObject = stream;
-        })
-        .catch(function (err0r) {
-        console.log("Something went wrong! - " + err0r);
-        });
-    }
-} else if (navigator.platform === "iPhone") {
-    console.log("u're on an iPhone!");
-    // Access the device camera and stream to cameraView
-    function cameraStart() {
-        navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function(stream) {
-            track = stream.getTracks()[0];
-            cameraView.srcObject = stream;
-        })
-        .catch(function(error) {
-            console.error("Oops. Something is broken.", error);
-        });
-    }
-} else {
-    console.log("unsupported platform" + navigator.platform);
+// if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
+//     console.log("u're on a Mac!");
+//     if (navigator.mediaDevices.getUserMedia) {
+//     navigator.mediaDevices.getUserMedia({ video: true })
+//         .then(function (stream) {
+//         video.srcObject = stream;
+//         })
+//         .catch(function (err0r) {
+//         console.log("Something went wrong! - " + err0r);
+//         });
+//     }
+// } else if (navigator.platform === "iPhone") {
+console.log("u're on an iPhone!");
+// Access the device camera and stream to cameraView
+function cameraStart() {
+    navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(function(stream) {
+        track = stream.getTracks()[0];
+        cameraView.srcObject = stream;
+    })
+    .catch(function(error) {
+        console.error("Oops. Something is broken.", error);
+    });
 }
+// } else {
+//     console.log("unsupported platform" + navigator.platform);
+// }
 
 // adding any object at all
 const material = new THREE.MeshStandardMaterial({color : "white"});
