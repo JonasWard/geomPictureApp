@@ -41,6 +41,8 @@ const renderer = new THREE.WebGLRenderer( { canvas: modelCanvas, alpha: true} );
 renderer.setSize( window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setClearColor( 0x000000, 0 );
+
+scene.background = null;
 renderer.shadowMap.enabled = true;
 
 //Adding Controls
