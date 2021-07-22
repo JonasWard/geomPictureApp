@@ -1,12 +1,8 @@
 // import { OrbitControls } from "https://threejs.org/examples/jsm/controls/OrbitControls.js";
+// import { OrbitControls } from "./libs/OrbitControls.js";
 
 // Set constraints for the video stream
-var constraints = { video: { facingMode: { exact: "environment" } }, audio: false };
-var track = null;
-
-// const controls = new THREE.OrbitControls(camera, renderer.domElement);
-// console.log(controls);
-
+let track = null;
 
 // Define constants
 const cameraView = document.querySelector("#camera--view"),
@@ -18,22 +14,46 @@ const modelCanvas = document.getElementById("model-three");
 
 if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
     console.log("u're on a Mac!");
+
+    const constraints = { video: true };
     var video = document.querySelector("cameraView");
 
-    console.log(video);
-    console.log(navigator.mediaDevices);
+    // console.log(video);
+    // console.log(navigator.mediaDevices);
 
-    if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
+    function cameraStart() {
+        navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function(stream) {
+            track = stream.getTracks()[0];
             cameraView.srcObject = stream;
         })
-        .catch(function (err0r) {
-        console.log("Something went wrong! - " + err0r);
+        .catch(function(error) {
+            console.error("Oops. Something is broken.", error);
         });
     }
+
+    window.addEventListener("load", cameraStart, false);
+
+    // if (navigator.mediaDevices.getUserMedia) {
+    // navigator.mediaDevices.getUserMedia(constraints)
+    //     .then(function (stream) {
+    //         track = stream.getTracks()[0];
+    //         cameraView.srcObject = stream;
+    //     })
+    //     .catch(function (err0r) {
+    //     console.log("Something went wrong! - " + err0r);
+    //     });
+
+    //     window.addEventListener("load", cameraStart, false);
+    // }
+
+    // window.addEventListener("load", cameraStart, false);
+
 } else if (navigator.platform === "iPhone") {
     console.log("u're on an iPhone!");
+
+    const constraints = { video: { facingMode: { exact: "environment" } }, audio: false };
     // Access the device camera and stream to cameraView
     function cameraStart() {
         navigator.mediaDevices
@@ -46,6 +66,9 @@ if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
             console.error("Oops. Something is broken.", error);
         });
     }
+
+    window.addEventListener("load", cameraStart, false);
+
 } else {
     console.log("unsupported platform" + navigator.platform);
 }
@@ -66,12 +89,19 @@ const renderer = new THREE.WebGLRenderer( { canvas: modelCanvas, alpha: true} );
 renderer.setSize( window.innerWidth, window.innerHeight);
 renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setClearColor(0xffffff, 0);
+scene.background = null;
+// scene.background = new THREE.Color( 0xff0000, 1 );
+
+// console.log(THREE.OrbitControls);
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+console.log(controls);
 
 // scene.background = null;
 // renderer.shadowMap.enabled = true;
 
 //Adding Controls
 console.log(camera, renderer.domElement);
+console.log(camera.projectionMatrix);
 
 // adding any object at all
 const material = new THREE.MeshStandardMaterial({color : "white"});
@@ -84,11 +114,11 @@ const planeMesh = new THREE.Mesh(plane, material);
 scene.add(planeMesh);
 
 // add light
-const light = new THREE.HemisphereLight("white", "blue", 1.);
-scene.add(light);
-const dirLight = new THREE.DirectionalLight("green", .5);
-dirLight.castShadow=true;
-scene.add(dirLight);
+// const light = new THREE.HemisphereLight("white", "blue", 1.);
+// scene.add(light);
+// const dirLight = new THREE.DirectionalLight("green", .5);
+// dirLight.castShadow=true;
+// scene.add(dirLight);
 
 renderer.render( scene, camera );
 
@@ -103,4 +133,3 @@ cameraTrigger.onclick = function() {
 };
 
 // Start the video stream when the window loads
-window.addEventListener("load", cameraStart, false);
