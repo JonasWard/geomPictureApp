@@ -65,7 +65,7 @@ if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
         .catch(function(error) {
             console.error("Oops. Something is broken.", error);
         });
-    }
+    }   
 
     window.addEventListener("load", cameraStart, false);
 
@@ -102,21 +102,21 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 console.log(camera, renderer.domElement);
 
 // adding any object at all
-const material = new THREE.MeshStandardMaterial({color : "white"});
+const material = new THREE.MeshStandardMaterial({color : "white", opacity: .5});
 
 // adding a baseplane
-const plane = new THREE.BoxGeometry(10, 10);
+const plane = new THREE.BoxGeometry(10, 10, 10);
 const planeMesh = new THREE.Mesh(plane, material);
 // planeMesh.rotation.y = .5;
 // planeMesh.rotation.x = -.5*Math.Pi;
 scene.add(planeMesh);
 
 // add light
-// const light = new THREE.HemisphereLight("white", "blue", 1.);
-// scene.add(light);
-// const dirLight = new THREE.DirectionalLight("green", .5);
-// dirLight.castShadow=true;
-// scene.add(dirLight);
+const light = new THREE.HemisphereLight("white", "blue", 1.);
+scene.add(light);
+const dirLight = new THREE.DirectionalLight("green", .5);
+dirLight.castShadow=true;
+scene.add(dirLight);
 
 function animate() {
     requestAnimationFrame(animate);
