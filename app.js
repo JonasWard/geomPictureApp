@@ -94,7 +94,6 @@ scene.background = null;
 
 // console.log(THREE.OrbitControls);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-console.log(controls);
 
 // scene.background = null;
 // renderer.shadowMap.enabled = true;
@@ -119,7 +118,10 @@ scene.add(planeMesh);
 // dirLight.castShadow=true;
 // scene.add(dirLight);
 
-renderer.render( scene, camera );
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render( scene, camera );
+}
 
 // Take a picture when cameraTrigger is tapped
 cameraTrigger.onclick = function() {
@@ -132,5 +134,7 @@ cameraTrigger.onclick = function() {
     console.log(camera.projectionMatrix);
     // track.stop();
 };
+
+animate();
 
 // Start the video stream when the window loads
