@@ -18,22 +18,31 @@
 	<body>
 
 		<!-- Camera -->
-		<main id="camera"></main>
-
-		    <!-- Camera sensor -->
-		    <canvas id="camera--sensor"></canvas>
+		<main id="camera">
+			<div class="stack">
+				<!-- Camera sensor -->
+				<canvas id="camera--sensor"></canvas>
+			</div>
 		    
-		    <!-- Camera view -->
-		    <video id="camera--view" autoplay playsinline></video>
-		    
-		    <!-- Camera output -->
-		    <img src="//:0" alt="" id="camera--output">
+			<div class="stack">
+				<!-- Camera view -->
+				<video id="camera--view" autoplay playsinline></video>
+			</div>
+			
+			<div class="stack">
+				<!-- Camera output -->
+				<img src="//:0" alt="" id="camera--output">
+			</div>
 
-			<!-- model -->
-			<canvas id="model-three"></canvas>
+			<div class="stack">
+				<!-- model -->
+				<canvas id="model-three"></canvas>
+			</div>
 
-			<!-- Camera trigger -->
-			<button id="camera--trigger">Take a picture</button>
+			<div class="stack">
+				<!-- Camera trigger -->
+				<button id="camera--trigger">Take a picture</button>
+			</div>
 
 		</main>
 

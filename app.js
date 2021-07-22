@@ -101,7 +101,6 @@ console.log(controls);
 
 //Adding Controls
 console.log(camera, renderer.domElement);
-console.log(camera.projectionMatrix);
 
 // adding any object at all
 const material = new THREE.MeshStandardMaterial({color : "white"});
@@ -129,6 +128,8 @@ cameraTrigger.onclick = function() {
     cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
     cameraOutput.src = cameraSensor.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
+
+    console.log(camera.projectionMatrix);
     // track.stop();
 };
 
