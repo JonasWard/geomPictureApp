@@ -65,9 +65,6 @@ if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
         .catch(function(error) {
             console.error("Oops. Something is broken.", error);
         });
-
-        cameraView.translate(window.innerWidth, 0);
-        cameraView.scale(-1, 1);
     }
 
     window.addEventListener("load", cameraStart, false);
