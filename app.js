@@ -92,11 +92,11 @@ for (var i = 0; i < 2; i++) {
             meshHeight * (-.5 + j)
         );
 
-        coordinates.push([
+        coordinates.push(new THREE.Vector3(
             meshHeight * .5,
             meshHeight * (-.5 + i),
             meshHeight * (-.5 + j)
-        ])
+        ));
 
         sphereMesh.setMatrixAt(count, matrix);
         count += 1;
@@ -154,16 +154,41 @@ function animate() {
     renderer.render( scene, camera );
 }
 
+let newCoordinates = [];
+
 // Take a picture when cameraTrigger is tapped
 cameraTrigger.onclick = function() {
+    newCoordinates = [];
     cameraSensor.width = cameraView.videoWidth;
     cameraSensor.height = cameraView.videoHeight;
     cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
     cameraOutput.src = cameraSensor.toDataURL("image/webp");
     cameraOutput.classList.add("taken");
 
-    console.log(camera.projectionMatrix);
-    // track.stop();
+    console.log(coordinates);
+
+    // getting the vector coordinates
+    for (const vector of coordinates) {
+
+        // console.log(vector);
+        // const cv = canvas.domElement;
+        let v = vector.clone();
+    
+        v.project(camera);
+    
+        v.x = Math.round((0.5 + v.x / 2) * (modelCanvas.width / window.devicePixelRatio));
+        v.y = Math.round((0.5 - v.y / 2) * (modelCanvas.height / window.devicePixelRatio));
+
+        newCoordinates.push(new THREE.Vector3(v.x, v.y, 0.));
+    }
+
+    // storing the canvas as an image
+    let dataURL = modelCanvas.toDataURL("image/png");
+    let newTab = window.open('about:blank','image from canvas');
+    newTab.document.write("<img src='" + dataURL + "' alt='from canvas'/>");
+
+
+    console.log(newCoordinates);
 };
 
 animate();
