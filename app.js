@@ -73,6 +73,35 @@ if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
     console.log("unsupported platform" + navigator.platform);
 }
 
+const sphereMaterial = new THREE.MeshStandardMaterial({color : "blue", opacity: .9});
+
+const sphere = new THREE.DodecahedronGeometry(.1, 2);
+
+const sphereMesh = new THREE.InstancedMesh( sphere, sphereMaterial, 4 );
+const meshHeight = 10.;
+
+let count = 0;
+
+let coordinates = [];
+
+for (var i = 0; i < 2; i++) {
+    for (var j = 0; j < 2; j++) {
+        var matrix = new THREE.Matrix4().makeTranslation(
+            meshHeight * .5,
+            meshHeight * (-.5 + i),
+            meshHeight * (-.5 + j)
+        );
+
+        coordinates.push([
+            meshHeight * .5,
+            meshHeight * (-.5 + i),
+            meshHeight * (-.5 + j)
+        ])
+
+        sphereMesh.setMatrixAt(count, matrix);
+        count += 1;
+    }
+}
 
 console.log(navigator.platform);
 console.log(navigator.userAgent);
@@ -105,11 +134,13 @@ console.log(camera, renderer.domElement);
 const material = new THREE.MeshStandardMaterial({color : "white", opacity: .5});
 
 // adding a baseplane
-const plane = new THREE.BoxGeometry(10, 10, 10);
+const plane = new THREE.BoxGeometry(meshHeight, meshHeight, meshHeight);
 const planeMesh = new THREE.Mesh(plane, material);
 // planeMesh.rotation.y = .5;
 // planeMesh.rotation.x = -.5*Math.Pi;
+scene.add(sphereMesh);
 scene.add(planeMesh);
+scene.add(sphereMesh);
 
 // add light
 const light = new THREE.HemisphereLight("white", "blue", 1.);
