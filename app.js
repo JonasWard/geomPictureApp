@@ -182,13 +182,12 @@ cameraTrigger.onclick = function() {
         newCoordinates.push(new THREE.Vector3(v.x, v.y, 0.));
     }
 
+    console.log(newCoordinates);
+
     // storing the canvas as an image
-    let dataURL = modelCanvas.toDataURL("image/png");
+    let dataURL = cameraSensor.toDataURL("image/png");
     let newTab = window.open('about:blank','image from canvas');
     newTab.document.write("<img src='" + dataURL + "' alt='from canvas'/>");
-
-
-    console.log(newCoordinates);
 };
 
 animate();
