@@ -86,25 +86,19 @@ const meshHeight = 10.;
 
 let count = 0;
 
-let coordinates = [];
+let coordinates = [
+    new THREE.Vector3(meshHeight * .5, meshHeight * (-.5), meshHeight * (-.5)),
+    new THREE.Vector3(meshHeight * .5, meshHeight * (-.5), meshHeight * (.5)),
+    new THREE.Vector3(meshHeight * .5, meshHeight * (.5), meshHeight * (.5)),
+    new THREE.Vector3(meshHeight * .5, meshHeight * (.5), meshHeight * (-.5))
+];
 
-for (var i = 0; i < 2; i++) {
-    for (var j = 0; j < 2; j++) {
-        var matrix = new THREE.Matrix4().makeTranslation(
-            meshHeight * .5,
-            meshHeight * (-.5 + i),
-            meshHeight * (-.5 + j)
-        );
+for (const c of coordinates) {
+    let matrix = new THREE.Matrix4().makeTranslation(c.x, c.y, c.z);
 
-        coordinates.push(new THREE.Vector3(
-            meshHeight * .5,
-            meshHeight * (-.5 + i),
-            meshHeight * (-.5 + j)
-        ));
+    sphereMesh.setMatrixAt(count, matrix);
 
-        sphereMesh.setMatrixAt(count, matrix);
-        count += 1;
-    }
+    count += 1;
 }
 
 console.log(navigator.platform);
@@ -144,7 +138,6 @@ const planeMesh = new THREE.Mesh(plane, material);
 // planeMesh.rotation.x = -.5*Math.Pi;
 scene.add(sphereMesh);
 scene.add(planeMesh);
-scene.add(sphereMesh);
 
 // add light
 const light = new THREE.HemisphereLight("white", "blue", 1.);
@@ -160,8 +153,16 @@ function animate() {
 
 let newCoordinates = [];
 
+let vString;
+let tString;
+let fString;
+
 // Take a picture when cameraTrigger is tapped
 cameraTrigger.onclick = function() {
+    vString = "";
+    tString = "";
+    fString = "f 1/1 2/2 3/3 4/4";
+
     newCoordinates = [];
     cameraSensor.width = cameraView.videoWidth;
     cameraSensor.height = cameraView.videoHeight;
@@ -174,19 +175,25 @@ cameraTrigger.onclick = function() {
     // getting the vector coordinates
     for (const vector of coordinates) {
 
+        vString += 'v ' + vector.x.toString() + ' ' + vector.y.toString() + ' ' + vector.z.toString() + '\n';
+
         // console.log(vector);
         // const cv = canvas.domElement;
         let v = vector.clone();
     
         v.project(camera);
     
-        v.x = Math.round((0.5 + v.x / 2) * (modelCanvas.width / window.devicePixelRatio));
-        v.y = Math.round((0.5 - v.y / 2) * (modelCanvas.height / window.devicePixelRatio));
-
-        newCoordinates.push(new THREE.Vector3(v.x, v.y, 0.));
+        v.x = (0.5 + v.x / 2) * (1. / window.devicePixelRatio);
+        v.y = (0.5 + v.y / 2) * (1. / window.devicePixelRatio);
+        tString += 'vt ' + v.x.toString() + ' ' + v.y.toString() + ' 0\n';
+        
+        // vertexCoordinates.push(new THREE.Vector3(v.x, v.y, 0.));
+        newCoordinates.push(new THREE.Vector3(v.x * modelCanvas.width, v.y * modelCanvas.height, 0.));
     }
 
-    console.log(newCoordinates);
+    // console.log(newCoordinates);
+
+    console.log(vString+tString+fString);
 
     // storing the canvas as an image
     let dataURL = cameraSensor.toDataURL("image/png");
