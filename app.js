@@ -15,7 +15,11 @@ const modelCanvas = document.getElementById("model-three");
 if (navigator.platform === "MacIntel" || navigator.platform === "MacApple") {
     console.log("u're on a Mac!");
 
-    const constraints = { video: true };
+    const constraints = { video: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            frameRate: 15
+        } };
     var video = document.querySelector("cameraView");
 
     // console.log(video);
